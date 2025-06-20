@@ -13,7 +13,7 @@ These commands will be accessable after it completes.
 Command-Line Utilities
 ----------------------
 
-Once Schwab-py is installed, the following commands become available on **Linux**, **macOS**, and **Windows**:
+Once Schwab-py-extra is installed (pip install .), the following commands become available on **Linux**, **macOS**, and **Windows**:
 
 * **`schwab-analysis`**
   Run Token function analysis routines against your Schwab account.
