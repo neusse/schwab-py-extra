@@ -53,7 +53,7 @@ def main():
     # Get credentials from environment variables
     api_key = os.environ.get('SCHWAB_API_KEY')
     app_secret = os.environ.get('SCHWAB_APP_SECRET')
-    token_file = Path(os.environ.get('SCHWAB_TOKEN_PATH'))
+    token_file = Path(os.environ.get('SCHWAB_TOKEN_PATH',"token.txt"))
     
     if not api_key or not app_secret or not token_file:
         print("Error: SCHWAB_API_KEY and SCHWAB_APP_SECRET environment variables must be set")

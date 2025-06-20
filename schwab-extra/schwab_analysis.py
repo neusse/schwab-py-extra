@@ -486,13 +486,6 @@ Examples:
         help='Check for available package updates (requires internet connection)'
     )
     
-    # parser.add_argument(
-    #     '--token-path', '-t',
-    #     type=Path,
-    #     default=Path('token.json'),
-    #     help='Path to the token file (default: token.json)'
-    # )
-    
     parser.add_argument(
         '--timeout',
         type=int,
@@ -528,7 +521,7 @@ def main() -> None:
     import os
     api_key = os.getenv("schwab_api_key")
     app_secret = os.getenv("schwab_app_secret")
-    token_path = Path(os.getenv("schwab_token_path"))
+    token_path = Path(os.getenv("schwab_token_path","token.txt"))
     
     if not api_key or not app_secret or not token_path:
         print("❌ ERROR: Missing required environment variables:")

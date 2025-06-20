@@ -3,25 +3,11 @@ import os
 import sys
 import shutil
 import schwab.auth
-#import importlib.util
-import schwab.scripts.schwab_setup_env as se
-# # 1) Try the package import
-# try:
-#     from schwab.scripts import schwab_setup_env as se
-# except ImportError:
-#     # 2) Fallback: load by file path next to this script
-#     pkg_dir = os.path.dirname(__file__)
-#     module_path = os.path.join(pkg_dir, "schwab_setup_env.py")
-#     if not os.path.exists(module_path):
-#         print(f"Error: cannot find helper at {module_path}", file=sys.stderr)
-#         sys.exit(1)
-#     spec = importlib.util.spec_from_file_location("schwab_setup_env", module_path)
-#     se = importlib.util.module_from_spec(spec)
-#     spec.loader.exec_module(se)
+import schwab_setup_env as se
 
 
 def ensure_env_vars():
-    missing = [name for name in schwab.scripts.schwab_setup_env.VARS if not os.environ.get(name)]
+    missing = [name for name in se.VARS if not os.environ.get(name)]
     if missing:
         print("The following environment variables are missing:")
         for name in missing:
