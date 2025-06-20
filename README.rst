@@ -1,4 +1,8 @@
-# schwab-py-extra
+schwab-py-extra
+---------------
+
+Join my Discord:  https://discord.gg/bgzXwqRH
+
 
 Extras for schwab-py
 
