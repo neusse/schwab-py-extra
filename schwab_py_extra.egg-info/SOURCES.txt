@@ -9,6 +9,7 @@ schwab_extra/schwab_package_checker.py
 schwab_extra/schwab_refresh_token.py
 schwab_extra/schwab_setup_env.py
 schwab_extra/version.py
+schwab_extra/yf_gapper_screener.py
 schwab_py_extra.egg-info/PKG-INFO
 schwab_py_extra.egg-info/SOURCES.txt
 schwab_py_extra.egg-info/dependency_links.txt

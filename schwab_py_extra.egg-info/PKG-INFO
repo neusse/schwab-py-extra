@@ -31,7 +31,12 @@ Dynamic: requires-python
 Dynamic: summary
 
 # schwab-py-extra
-extras for schwab-py
+
+Extras for schwab-py
+
+Download this repository and run (pip install .) from the repository root.
+These commands will be accessable after it completes.
+
 
 Command-Line Utilities
 ----------------------

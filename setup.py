@@ -59,6 +59,7 @@ setup(
     entry_points={
         'console_scripts': [
             'schwab-analysis = schwab_extra.schwab_analysis:main',
+            'yf-gapper-screener = schwab_extra.yf_gapper_screener:main',
             'schwab-refresh-token = schwab_extra.schwab_refresh_token:main',
             'schwab-fetch-new-token = schwab_extra.schwab_fetch_new_token:main',
             'schwab-setup-env = schwab_extra.schwab_setup_env:main',   

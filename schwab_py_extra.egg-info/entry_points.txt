@@ -4,3 +4,4 @@ schwab-fetch-new-token = schwab_extra.schwab_fetch_new_token:main
 schwab-package-checker = schwab_extra.schwab_package_checker:main
 schwab-refresh-token = schwab_extra.schwab_refresh_token:main
 schwab-setup-env = schwab_extra.schwab_setup_env:main
+yf-gapper-screener = schwab_extra.yf_gapper_screener:main
