@@ -9,3 +9,6 @@ schwab_py_extra.egg-info/
 
 # Ignore any file or folder with "token" anywhere in its name
 *token*
+
+# Ignore 
+__pycache__/
