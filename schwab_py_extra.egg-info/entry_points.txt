@@ -1,0 +1,6 @@
+[console_scripts]
+schwab-analysis = schwab_extra.schwab_analysis:main
+schwab-fetch-new-token = schwab_extra.schwab_fetch_new_token:main
+schwab-package-checker = schwab_extra.schwab_package_checker:main
+schwab-refresh-token = schwab_extra.schwab_refresh_token:main
+schwab-setup-env = schwab_extra.schwab_setup_env:main
