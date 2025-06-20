@@ -1,0 +1,11 @@
+# Ignore build directory and all its contents
+build/
+
+# Ignore schwab_py_extra.egg-info directory and all its contents
+schwab_py_extra.egg-info/
+
+# Ignore all CSV files
+*.csv
+
+# Ignore any file or folder with "token" anywhere in its name
+*token*
