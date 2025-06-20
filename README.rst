@@ -36,8 +36,8 @@ Once Schwab-py is installed, the following commands become available on **Linux*
 * **`schwab-package-checker`**
   Verify that all required dependencies and package versions meet Schwab Py’s requirements.
 
-### Usage Examples
-
+Usage Examples
+--------------
 * Show current env vars  ```schwab-setup-env --show```
 * Set up env vars interactively: ```schwab-setup-env```
 * Run analysis: ```schwab-analysis -u```
