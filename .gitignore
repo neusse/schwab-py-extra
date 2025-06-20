@@ -11,4 +11,4 @@ schwab_py_extra.egg-info/
 *token*
 
 # Ignore 
-__pycache__/
+schwab_extra/__pycache__/
