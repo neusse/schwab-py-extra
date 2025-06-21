@@ -10,7 +10,7 @@ Download this repository and run (pip install .) from the repository root.
 These commands will be accessable after it completes.
 
 There will be support for 3 data sources.  the Schwab-py API, Alpaca API and yfinance API.
-Comand-line utilities that interact with a particular API will begin with that API name. (ie. yf-gapper-getter)
+Comand-line utilities that interact with a particular API will begin with that API name. (ie. yf-gapper-screener)
 
 ## Available Commands
 
@@ -24,6 +24,17 @@ After installing `schwab-py-extra` with `pip install .`, the following command-l
 | `schwab-setup-env` | Interactively create and validate the persistent environment variables required for Schwab API access (`schwab_api_key`, `schwab_app_secret`, `schwab_callback_url`, `schwab_token_path`) | `schwab-setup-env` |
 | `schwab-setup-env --show` | Display current environment variable values without prompting for changes | `schwab-setup-env --show` |
 | `schwab-package-checker` | Verify that all required dependencies and package versions meet Schwab Py's requirements | `schwab-package-checker -u` |
+
+
+- **`aplaca-setup-env`**  
+  **Entry point:** `schwab.scripts.aplaca_setup_env:main`  
+  **Source file:** `schwab/scripts/aplaca_setup_env.py`  
+  Export Alpaca API keys and related environment variables for local development or CI.
+
+- **`yf-gapper-screener`**  
+  **Entry point:** `schwab.scripts.yf_gapper_screener:main`  
+  **Source file:** `schwab/scripts/yf_gapper_screener.py`  
+  Screen U.S. stocks for overnight price gaps using Yahoo Finance data.
 
 ### Quick Start Examples
 
