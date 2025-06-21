@@ -1,7 +1,7 @@
 
 from setuptools import setup, find_packages
 
-with open('README.rst', 'r') as f:
+with open('README.md', 'r') as f:
     long_description = f.read()
 
 with open('schwab_extra/version.py', 'r') as f:
@@ -59,6 +59,8 @@ setup(
     entry_points={
         'console_scripts': [
             'schwab-analysis = schwab_extra.schwab_analysis:main',
+            'rich-get-positions = schwab_extra.rich_get_positions:main',
+            'rich-dividend-calender = schwab_extra.rich_dividend_calender:main',
             'yf-gapper-screener = schwab_extra.yf_gapper_screener:main',
             'schwab-refresh-token = schwab_extra.schwab_refresh_token:main',
             'schwab-fetch-new-token = schwab_extra.schwab_fetch_new_token:main',
