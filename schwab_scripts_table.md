@@ -1,3 +1,17 @@
+schwab-py-extra
+---------------
+
+Join my Discord:  https://discord.gg/bgzXwqRH
+
+
+Extras for schwab-py
+
+Download this repository and run (pip install .) from the repository root.
+These commands will be accessable after it completes.
+
+There will be support for 3 data sources.  the Schwab-py API, Alpaca API and yfinance API.
+Comand-line utilities that interact with a particular API will begin with that API name. (ie. yf-gapper-getter)
+
 ## Available Commands
 
 After installing `schwab-py-extra` with `pip install .`, the following command-line utilities become available:
