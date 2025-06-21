@@ -10,7 +10,7 @@ Download this repository and run (pip install .) from the repository root.
 These commands will be accessable after it completes.
 
 There will be support for 3 data sources.  the Schwab-py API, Alpaca API and yfinance API.
-Comand-line utilities that interact with a particular API will begin with that API name. (ie. yf-gapper-getter)
+Comand-line utilities that interact with a particular API will begin with that API name. (ie. yf-gapper-screener)
 
 ## Available Commands
 
