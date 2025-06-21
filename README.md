@@ -25,6 +25,17 @@ After installing `schwab-py-extra` with `pip install .`, the following command-l
 | `schwab-setup-env --show` | Display current environment variable values without prompting for changes | `schwab-setup-env --show` |
 | `schwab-package-checker` | Verify that all required dependencies and package versions meet Schwab Py's requirements | `schwab-package-checker -u` |
 
+
+- **`aplaca-setup-env`**  
+  **Entry point:** `schwab.scripts.aplaca_setup_env:main`  
+  **Source file:** `schwab/scripts/aplaca_setup_env.py`  
+  Export Alpaca API keys and related environment variables for local development or CI.
+
+- **`yf-gapper-screener`**  
+  **Entry point:** `schwab.scripts.yf_gapper_screener:main`  
+  **Source file:** `schwab/scripts/yf_gapper_screener.py`  
+  Screen U.S. stocks for overnight price gaps using Yahoo Finance data.
+
 ### Quick Start Examples
 
 ```bash
