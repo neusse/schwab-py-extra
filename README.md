@@ -11,10 +11,12 @@ These commands will be accessable after it completes.
 
 Quick start:
 
+These utils support both windows, macos and linux.  so paths etc. should comply with your os. 
+
 1. Get schwab-py installed (pip install -U schwan-py)
 2. Download or clone this repository.
 3. Frome the root of this repository (/schwab-py-extra) install this python package.  (pip install .)
-4. Once installed run the setup, you need your api_key, app_secret, the callbach from your app as regisered on the schwab web site, and a path to your token (ie. /home/neusse/token.json).   setup command is (schwab-setup-env)  follow the prompts and it will handle setting up you environment variables.
+4. Once installed run the setup, you need your api_key, app_secret, the callback from your app as regisered on the schwab web site, and a path to your token (ie. /home/neusse/token.json).   setup command is (schwab-setup-env)  follow the prompts and it will handle setting up you environment variables.
 5. Create a token. This will run the manual flow. If it works we are all good to go. (schwab-fetch-new-token) follow direstions.
 6. Test the token. run the analysis. It will look at some things and get a quote for TSLA. (schwab-py-analysis -u)
 
