@@ -4,21 +4,22 @@ schwab-py-extra
 Join my Discord:  https://discord.gg/bgzXwqRH
 
 
-Extras for schwab-py
-
-Download this repository and run (pip install .) from the repository root.
-These commands will be accessable after it completes.
+# Extras for schwab-py
 
 Quick start:
 
-These utils support both windows, macos and linux.  so paths etc. should comply with your os. 
+These utils support both windows, macos and linux.  so paths etc should comply with your os. Once schwab-py-extra is installed all commands should run as any other executible in your path.  
 
 1. Get schwab-py installed (pip install -U schwan-py)
 2. Download or clone this repository.
-3. Frome the root of this repository (/schwab-py-extra) install this python package.  (pip install .)
-4. Once installed run the setup, you need your api_key, app_secret, the callback from your app as regisered on the schwab web site, and a path to your token (ie. /home/neusse/token.json).   setup command is (schwab-setup-env)  follow the prompts and it will handle setting up you environment variables.
-5. Create a token. This will run the manual flow. If it works we are all good to go. (schwab-fetch-new-token) follow direstions.
-6. Test the token. run the analysis. It will look at some things and get a quote for TSLA. (schwab-py-analysis -u)
+3. From the root of this repository (/schwab-py-extra) install this python package.  (pip install .)
+4. Once installed run the environment setup, you need the bellow list. The setup command is (schwab-setup-env). follow the prompts and it will handle setting up your environment variables. (windows or linux)
+   * api_key
+   * app_secret
+   * callback from your app as regisered on the schwab web site (ie. HTTPS://127.0.0.1:8182/)
+   * path to your token to be created (ie. /home/neusse/token.json)
+5. Create a token. This will run the manual flow. If it works we are all good to go. (schwab-fetch-new-token) follow directions.
+6. Test the token by running the analysis. It will look at some token values and packges then get a quote for TSLA. (schwab-py-analysis -u)
 
 If all is good.  you should see the quote in the output.  If not help is available on the schwab-py discord or my discord.
 
@@ -37,7 +38,7 @@ After installing `schwab-py-extra` with `pip install .`, the following command-l
 
 | Command | Description | Example Usage |
 |---------|-------------|---------------|
-| `schwab-dividends-calener` | Print a dividend calender for last year of your current positions | `schwab-dividend-calendar` |
+| `schwab-dividends-calener` | Print a dividend calender for the last year of your current positions | `schwab-dividend-calendar` |
 | `schwab-positions-monitor` | A continualy updating posistion display | `schwab-positions-monitor -w` |
 | `schwab-portfolio-analyzer` | Back test your current posistions with charts and reports | `schwab-portfolio-analyzer` | 
 | `schwab-py-analysis` | Run health analysis routines against your Schwab-py install and token | `schwab-py-analysis -u` |
@@ -54,6 +55,9 @@ After installing `schwab-py-extra` with `pip install .`, the following command-l
 ### Quick Start Examples
 
 ```bash
+# display your portfolio
+schwab-portfolio-analyzer
+
 # Set up environment variables interactively
 schwab-setup-env
 
