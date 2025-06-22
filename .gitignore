@@ -12,3 +12,10 @@ schwab_py_extra.egg-info/
 
 # Ignore 
 schwab_extra/__pycache__/
+
+# ignore charts if they appear
+*chart.png
+
+# ignore market data cache
+market_data_cache/
+
