@@ -494,14 +494,18 @@ def analyze_portfolio(save_charts: bool = False, show_dividend_details: bool = T
     
     print("\nAnalysis complete!")
 
+def main():
+    analyze_portfolio(save_charts=False, show_dividend_details=True)
+
+
 # =============================================================================
 # EXECUTION
 # =============================================================================
 
 if __name__ == "__main__":
     # Run the analysis with default 90-day period
-    analyze_portfolio(save_charts=False, show_dividend_details=True, days_back=180)
-    
+    #analyze_portfolio(save_charts=False, show_dividend_details=True, days_back=180)
+    main()
     # Example: Run analysis for different periods
     # analyze_portfolio(days_back=30)   # 30-day analysis
     # analyze_portfolio(days_back=180)  # 6-month analysis

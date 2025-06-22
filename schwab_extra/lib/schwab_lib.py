@@ -185,7 +185,7 @@ def get_positions_shares(*, debug: bool = False) -> List[Dict[str, Any]]:
     client = authenticate()
     resp = client.get_accounts(fields=client.Account.Fields)
     if resp.status_code != httpx.codes.OK:
-        raise RuntimeError(f"Schwab API responded with status {resp.status_code}")
+        raise RuntimeError(f"Schwab API responded with status {resp.status_code} {resp}")
 
     positions: List[Dict[str, Any]] = []
     for account in resp.json():

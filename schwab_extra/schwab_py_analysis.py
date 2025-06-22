@@ -69,19 +69,35 @@ class PackageVersionChecker:
 
     # Package distributions to check for compatibility analysis
     CRITICAL_PACKAGES = [
-        "autopep8",
-        "authlib",
-        "flask",
-        "httpx",
-        "multiprocess",
-        "psutil",
-        "python-dateutil",
-        "urllib3",
-        "websockets",
-        "certifi",
+        'authlib',
+        'flask',
+        'httpx',
+        'multiprocess',
+        'psutil',
+        'python-dateutil',
+        'urllib3',
+        'websockets',
         "pytest",
         "schwab-py",  # Main Schwab API package
-        "packaging",  # Added since we're using it
+        'alpaca-py',
+        'alpaca',
+        'backtesting',
+        'beautifulsoup4',
+        'httpx',
+        'matplotlib',
+        'mplfinance',
+        'numpy',
+        'packaging',
+        'pandas',
+        'pandas_ta',
+        'Requests',
+        'rich',
+        'schwab_py',
+        'scipy',
+        'setuptools',
+        'tabulate',
+        'yfinance',
+        'certifi',
     ]
 
     def __init__(self, timeout_seconds: int = 10):
