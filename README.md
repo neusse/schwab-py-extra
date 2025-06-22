@@ -18,23 +18,19 @@ After installing `schwab-py-extra` with `pip install .`, the following command-l
 
 | Command | Description | Example Usage |
 |---------|-------------|---------------|
-| `schwab-analysis` | Run token function analysis routines against your Schwab account | `schwab-analysis -u` |
-| `schwab-refresh-token` | Automatically refresh your Schwab API token using stored credentials | `schwab-refresh-token` |
+| `schwab-dividends-calener` | Print a dividend calender for last year of your current positions | `schwab-dividend-calendar` |
+| `schwab-positions-monitor` | A continualy updating posistion display | `schwab-positions-monitor -w` |
+| `schwab-portfolio-analyzer` | Back test your current posistions with charts and reports | `schwab-portfolio-analyzer` | 
+| `schwab-py-analysis` | Run health analysis routines against your Schwab-py install and token | `schwab-py-analysis -u` |
+| `schwab-refresh-token` | Manually force refresh of your Schwab API token using stored credentials | `schwab-refresh-token` |
 | `schwab-fetch-new-token` | Obtain a brand-new API token via the manual OAuth flow. Deletes any existing token file before acquiring a new one | `schwab-fetch-new-token` |
 | `schwab-setup-env` | Interactively create and validate the persistent environment variables required for Schwab API access (`schwab_api_key`, `schwab_app_secret`, `schwab_callback_url`, `schwab_token_path`) | `schwab-setup-env` |
 | `schwab-setup-env --show` | Display current environment variable values without prompting for changes | `schwab-setup-env --show` |
 | `schwab-package-checker` | Verify that all required dependencies and package versions meet Schwab Py's requirements | `schwab-package-checker -u` |
+| `yf-gapper-screener` | Uses yahoo screen function for fast screening finding overnight price gaps. | `see program for options` |
+| `yf-dividend-screener` | Filters for healthy stocks with high dividens.  All markets | `yf-dividend-screener` |
 
 
-- **`aplaca-setup-env`**  
-  **Entry point:** `schwab.scripts.aplaca_setup_env:main`  
-  **Source file:** `schwab/scripts/aplaca_setup_env.py`  
-  Export Alpaca API keys and related environment variables for local development or CI.
-
-- **`yf-gapper-screener`**  
-  **Entry point:** `schwab.scripts.yf_gapper_screener:main`  
-  **Source file:** `schwab/scripts/yf_gapper_screener.py`  
-  Screen U.S. stocks for overnight price gaps using Yahoo Finance data.
 
 ### Quick Start Examples
 
