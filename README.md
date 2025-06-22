@@ -9,6 +9,23 @@ Extras for schwab-py
 Download this repository and run (pip install .) from the repository root.
 These commands will be accessable after it completes.
 
+Quick start:
+
+1. Get schwab-py installed (pip install -U schwan-py)
+2. Download or clone this repository.
+3. Frome the root of this repository (/schwab-py-extra) install this python package.  (pip install .)
+4. Once installed run the setup, you need your api_key, app_secret, the callbach from your app as regisered on the schwab web site, and a path to your token (ie. /home/neusse/token.json).   setup command is (schwab-setup-env)  follow the prompts and it will handle setting up you environment variables.
+5. Create a token. This will run the manual flow. If it works we are all good to go. (schwab-fetch-new-token) follow direstions.
+6. Test the token. run the analysis. It will look at some things and get a quote for TSLA. (schwab-py-analysis -u)
+
+If all is good.  you should see the quote in the output.  If not help is available on the schwab-py discord or my discord.
+
+Good Luck!
+
+I will be adding some example code for the new folks to get you going.  also take a look at all the code in this repository. 
+
+-------
+
 There will be support for 3 data sources.  the Schwab-py API, Alpaca API and yfinance API.
 Comand-line utilities that interact with a particular API will begin with that API name. (ie. yf-gapper-screener)
 
