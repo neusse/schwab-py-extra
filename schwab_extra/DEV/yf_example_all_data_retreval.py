@@ -1,12 +1,13 @@
 import yfinance as yf
 
-mydata = yf.Ticker("MSFT")
+mydata = yf.Ticker("FTSM")
+
 
 # get all stock info
 mydata.info
 
-# get historical market data
-hist = mydata.history(period="1mo")
+# get historical market data (candles, dividens some times, seems splits and capital gains are missing)
+mydata.history(period="2mo")
 
 # show meta information about the history (requires history() to be called first)
 mydata.history_metadata
@@ -42,7 +43,7 @@ mydata.insider_roster_holders
 
 # show recommendations
 mydata.recommendations
-mydata.recommendations_summary
+mydata.recommendations_summary  # seems empty for all
 mydata.upgrades_downgrades
 
 # Show future and historic earnings dates, returns at most next 4 quarters and last 8 quarters by default.

@@ -106,7 +106,7 @@ def main():
     # Define portfolio and date range
     
     my_positions = gps()
-
+ 
     new_positions: dict[str, float] = defaultdict(float)
     for item in my_positions:
         new_positions[item["symbol"]] += item["shares"]
