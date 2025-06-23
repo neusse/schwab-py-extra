@@ -11,7 +11,8 @@ from typing import List
 import json
 import requests
 import pandas as pd
-
+from datetime import datetime
+import pandas_market_calendars as mcal
 
 
 
@@ -64,6 +65,61 @@ def get_sp500_tickers() -> List[str]:
 
     tickers: list[str] = df["Symbol"].astype(str).str.strip().tolist()
     return [ticker for ticker in tickers if ticker and ticker != "nan"]
+
+
+    ################################################################
+    #
+    ################################################################
+    def is_weekday(self):
+        """
+        Checks if the current date is a weekday.
+
+        Returns:
+        True if the current date is a weekday (Monday to Friday), False otherwise.
+        """
+        current_date = datetime.datetime.now().date()
+        return current_date.weekday() < 5  # Monday is 0 and Sunday is 6
+
+    def is_tuesday(self):
+        """
+        Checks if the current date is Tuesday.
+
+        Returns:
+        True if the current date is Tuesday, False otherwise.
+        """
+        current_date = datetime.datetime.now().date()
+        return current_date.weekday() == 1  # Monday is 0 and Sunday is 6
+
+    ################################################################
+    #
+    ################################################################
+    def is_market_open(self, date):
+        """
+        Checks if the stock market is open on a specific date.
+
+        Arguments:
+        date -- A datetime.date object representing the date to check
+
+        Returns:
+        True if the stock market is open on the given date, False otherwise.
+
+        ::example of use
+        date = datetime.date.today()  # Use the desired date
+
+        if not is_market_open(date):
+            print(mu.mytimestamp())
+            print("Market not open today!")
+            raise
+        """
+        # Get the calendar for the NYSE (New York Stock Exchange)
+        nyse = mcal.get_calendar("NYSE")
+
+        # Check if the given date is a valid trading day
+        return nyse.valid_days(start_date=date, end_date=date).size > 0
+
+
+
+
 
 
 if __name__ == "__main__":
