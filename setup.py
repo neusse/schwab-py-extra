@@ -48,6 +48,7 @@ setup(
         'tabulate',
         'yfinance',
         'certifi',
+        'pandas_market_calendars',
     ],
     # extras_require={
     #     'dev': [
@@ -70,6 +71,7 @@ setup(
             'alpaca-setup-env = schwab_extra.alpaca_setup_env:main',
             'schwab-dividend-calender = schwab_extra.schwab_dividend_calender:main',
             'schwab-fetch-new-token = schwab_extra.schwab_fetch_new_token:main',
+            'schwab-list = schwab_extra.schwab_list:main',
             'schwab-package-checker = schwab_extra.schwab_package_checker:main', 
             'schwab-portfolio-analyzer = schwab_extra.schwab_portfolio_analyzer:main', 
             'schwab-positions-monitor = schwab_extra.schwab_positions_monitor:main',

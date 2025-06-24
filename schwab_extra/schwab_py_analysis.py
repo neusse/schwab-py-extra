@@ -98,6 +98,7 @@ class PackageVersionChecker:
         'tabulate',
         'yfinance',
         'certifi',
+        'pandas_market_calendars',
     ]
 
     def __init__(self, timeout_seconds: int = 10):

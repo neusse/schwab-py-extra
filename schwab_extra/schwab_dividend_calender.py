@@ -8,6 +8,7 @@ from schwab_extra.lib.schwab_lib import get_positions_shares as gps
 from collections import defaultdict
 import calendar
 
+
 def get_dividends(tickers, start_date, end_date):
     dividend_data = {}
     for ticker in tickers:

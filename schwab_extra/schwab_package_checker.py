@@ -23,6 +23,7 @@ from packaging import version
 
 
 
+
 @dataclass
 class PackageInfo:
     """Data class to hold package version information."""
@@ -67,6 +68,7 @@ class PackageVersionChecker:
         'tabulate',
         'yfinance',
         'certifi',
+        'pandas_market_calendars',
     ]
     
     def __init__(self, timeout_seconds: int = 10):

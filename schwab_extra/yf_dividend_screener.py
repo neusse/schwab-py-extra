@@ -220,10 +220,10 @@ def calculate_data_quality_score(info):
 
 def apply_quality_filters(stocks, criteria):
     """Apply quality filters based on criteria"""
-    print(f"\n🔍 APPLYING QUALITY FILTERS")
+    print("\n🔍 APPLYING QUALITY FILTERS")
     print("=" * 70)
     
-    print(f"Filter criteria:")
+    print("Filter criteria:")
     for key, value in criteria.items():
         print(f"  {key}: {value}")
     print()
@@ -272,10 +272,10 @@ def apply_quality_filters(stocks, criteria):
             if len(filtered_stocks) < 5:  # Show first few rejections
                 print(f"  ✗ {symbol}: {', '.join(rejections)}")
     
-    print(f"\n📊 FILTERING RESULTS:")
+    print("\n📊 FILTERING RESULTS:")
     print(f"   Analyzed: {len(stocks)} stocks")
     print(f"   Passed filters: {len(filtered_stocks)} stocks")
-    print(f"   Rejection breakdown:")
+    print("   Rejection breakdown:")
     for reason, count in rejection_stats.items():
         print(f"     {reason}: {count} stocks")
     
@@ -356,9 +356,9 @@ def display_dividend_results(stocks, max_display=25):
     # Sort by quality score
     sorted_stocks = sorted(stocks, key=lambda x: x.get('dividend_quality_score', 0), reverse=True)
     
-    print(f"\n🏆 TOP DIVIDEND INCOME OPPORTUNITIES")
+    print("\n🏆 TOP DIVIDEND INCOME OPPORTUNITIES")
     print("=" * 130)
-    print(f"Found {len(sorted_stocks)} quality dividend stocks\n")
+    print("Found {len(sorted_stocks)} quality dividend stocks\n")
     
     # Enhanced table
     headers = ['Rank', 'Symbol', 'Company', 'Yield%', 'Quality', 'Payout%', 'P/E', 'Market Cap', 'Sector']
@@ -385,7 +385,7 @@ def display_dividend_results(stocks, max_display=25):
     quality_scores = [s.get('dividend_quality_score', 0) for s in sorted_stocks]
     market_caps = [s.get('market_cap_billions', 0) for s in sorted_stocks if s.get('market_cap_billions', 0) > 0]
     
-    print(f"\n📊 PORTFOLIO ANALYSIS:")
+    print("\n📊 PORTFOLIO ANALYSIS:")
     print(f"   🎯 Total quality dividend stocks: {len(sorted_stocks)}")
     print(f"   📈 Average dividend yield: {sum(yields) / len(yields):.1f}%")
     print(f"   🏆 Average quality score: {sum(quality_scores) / len(quality_scores):.1f}/100")
@@ -401,12 +401,12 @@ def display_dividend_results(stocks, max_display=25):
         sectors[sector] = sectors.get(sector, 0) + 1
         countries[country] = countries.get(country, 0) + 1
     
-    print(f"\n📋 Sector Diversification:")
+    print("\n📋 Sector Diversification:")
     for sector, count in sorted(sectors.items(), key=lambda x: x[1], reverse=True)[:8]:
         print(f"   {sector}: {count} stocks")
     
     if len(countries) > 1:
-        print(f"\n🌍 Geographic Diversification:")
+        print("\n🌍 Geographic Diversification:")
         for country, count in sorted(countries.items(), key=lambda x: x[1], reverse=True)[:5]:
             print(f"   {country}: {count} stocks")
     
@@ -443,7 +443,7 @@ def save_comprehensive_results(stocks, strategy, criteria):
     with open(metadata_filename, 'w') as f:
         json.dump(results_data['metadata'], f, indent=2)
     
-    print(f"\n✅ Results saved:")
+    print("\n✅ Results saved:")
     print(f"   📄 Main data: {filename}")
     print(f"   📋 Metadata: {metadata_filename}")
     print(f"   📊 Contains {len(stocks)} dividend stocks with full analysis")
