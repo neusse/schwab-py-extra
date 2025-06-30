@@ -7,6 +7,7 @@ Auto-refreshes every 5 minutes during market hours (Pacific Time)
 
 import os
 import sys
+import json
 import tkinter as tk
 from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
@@ -17,7 +18,7 @@ import numpy as np
 from datetime import datetime, timedelta, time
 import pytz
 import threading
-import time as time_module
+#import time as time_module
 import argparse
 
 try:
@@ -95,6 +96,7 @@ class SchwabDataFetcher:
     def __init__(self):
         self.client = None
         self.authenticate()
+        self.company_name_cache = {}  # Cache company names
     
     def authenticate(self):
         """Authenticate with Schwab API using environment variables"""
@@ -117,12 +119,61 @@ class SchwabDataFetcher:
         except Exception as e:
             raise Exception(f"Schwab authentication failed: {e}")
             
-    
+
+    def get_company_name(self, symbol):
+        """Get company name from quote data with caching"""
+        # Check cache first
+        if symbol in self.company_name_cache:
+            return self.company_name_cache[symbol]
+        
+        try:
+            response = self.client.get_quote(symbol)
+            
+            if response.status_code != 200:
+                return symbol
+            
+            quote_data = response.json()
+            description = quote_data.get(symbol, {}).get("reference", {}).get("description")
+            company_name = description or symbol
+            
+            # Cache the result
+            self.company_name_cache[symbol] = company_name
+            return company_name
+        
+        except Exception as e:
+            print(f"Error getting company name: {e}")
+            return symbol
+
+
     def get_price_history(self, symbol, **params):
         """Fetch price history from Schwab API"""
+
+        my_now = datetime.now()
+        
+        # Get period from params to calculate appropriate start date
+        period = params.get('period', Client.PriceHistory.Period.ONE_DAY)  # Default fallback
+        period_type = params.get('period_type', Client.PriceHistory.PeriodType.DAY)
+        
+        # Calculate start date based on period
+        if period_type == Client.PriceHistory.PeriodType.DAY:
+            if period == Client.PriceHistory.Period.ONE_DAY:
+                my_yesterday = my_now - (timedelta(days=1)/3)
+            elif period == Client.PriceHistory.Period.TWO_DAYS:
+                my_yesterday = my_now - timedelta(days=2)
+            elif period == Client.PriceHistory.Period.FIVE_DAYS:
+                my_yesterday = my_now - timedelta(days=5)
+            else:
+                my_yesterday = my_now - (timedelta(days=1)/3)  # Default
+        else:
+            my_yesterday = my_now - (timedelta(days=1)/3)  # Default for other period types
+
         try:
             response = self.client.get_price_history(
                 symbol=symbol,
+                need_extended_hours_data=True, 
+                need_previous_close=True,
+                start_datetime=my_yesterday,
+                end_datetime=my_now,
                 **params
             )
             
@@ -130,8 +181,11 @@ class SchwabDataFetcher:
                 raise Exception(f"API request failed: {response.status_code}")
             
             data = response.json()
+
+            #print(json.dumps(data,indent=4))
+            my_previousClose=data["previousClose"]
             candles = data.get('candles', [])
-            
+            #print("candles ",len(candles))
             if not candles:
                 raise Exception("No data returned from API")
             
@@ -139,8 +193,8 @@ class SchwabDataFetcher:
             df = pd.DataFrame(candles)
             df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
             df.set_index('datetime', inplace=True)
-            
-            return df
+
+            return my_previousClose, df
             
         except Exception as e:
             raise Exception(f"Failed to fetch data: {e}")
@@ -175,6 +229,7 @@ class CandlestickChart:
         
         # RSI styling
         self.ax_rsi.set_ylabel('RSI', fontsize=10, color='purple')
+        self.ax_rsi.yaxis.set_label_position('right')  # Force label to right
         self.ax_rsi.tick_params(axis='y', labelcolor='purple')
         self.ax_rsi.set_ylim(0, 100)
         
@@ -209,10 +264,14 @@ class CandlestickChart:
         # Configure x-axis
         self.ax_main.set_xlim(-0.5, len(df) - 0.5)
         self.ax_main.set_xticks(range(0, len(df), max(1, len(df)//10)))
-        self.ax_main.set_xticklabels([df.index[i].strftime('%H:%M') 
-                                    for i in range(0, len(df), max(1, len(df)//10))], 
-                                   rotation=45)
-        
+        # self.ax_main.set_xticklabels([df.index[i].strftime('%H:%M') 
+        #                             for i in range(0, len(df), max(1, len(df)//10))], 
+        #                            rotation=45)
+        pacific_tz = pytz.timezone('America/Los_Angeles')
+        pacific_times = [df.index[i].tz_localize('UTC').tz_convert(pacific_tz).strftime('%H:%M') 
+                        for i in range(0, len(df), max(1, len(df)//10))]
+        self.ax_main.set_xticklabels(pacific_times, rotation=45)
+
         self.ax_main.set_ylabel('Price ($)')
         self.ax_main.grid(True, alpha=0.3)
     
@@ -237,30 +296,39 @@ class CandlestickChart:
         self.ax_rsi.set_ylim(0, 100)
         self.ax_rsi.set_ylabel('RSI', color='purple')
         self.ax_rsi.tick_params(axis='y', labelcolor='purple')
+
+        # Force RSI label and ticks to right side (move this here)
+        self.ax_rsi.set_ylabel('RSI', color='purple')
+        self.ax_rsi.yaxis.tick_right()
+        self.ax_rsi.yaxis.set_label_position('right')
+        self.ax_rsi.tick_params(axis='y', labelcolor='purple', right=True, left=False)
     
+ 
     def plot_volume(self, df):
         """Plot volume bars"""
         self.ax_volume.clear()
-        
+
         # Determine colors based on price movement
         colors = ['green' if close >= open_price else 'red' 
-                 for close, open_price in zip(df['close'], df['open'])]
-        
+                    for close, open_price in zip(df['close'], df['open'])]
+
         # Plot volume bars
         self.ax_volume.bar(range(len(df)), df['volume'], color=colors, alpha=0.6)
-        
-        # Configure x-axis
+
+        # Configure x-axis with Pacific time
+        import pytz
+        pacific_tz = pytz.timezone('America/Los_Angeles')
+
         self.ax_volume.set_xlim(-0.5, len(df) - 0.5)
         self.ax_volume.set_xticks(range(0, len(df), max(1, len(df)//10)))
-        self.ax_volume.set_xticklabels([df.index[i].strftime('%H:%M') 
-                                      for i in range(0, len(df), max(1, len(df)//10))], 
-                                     rotation=45)
-        
-        self.ax_volume.set_ylabel('Volume')
-        self.ax_volume.set_xlabel('Time')
-        self.ax_volume.grid(True, alpha=0.3)
-    
-    def update_chart(self, df, symbol, timeframe):
+
+        # Convert to Pacific time for labels
+        pacific_times = [df.index[i].tz_localize('UTC').tz_convert(pacific_tz).strftime('%H:%M') 
+                        for i in range(0, len(df), max(1, len(df)//10))]
+        self.ax_volume.set_xticklabels(pacific_times, rotation=45)
+
+
+    def update_chart(self, my_pc, df, symbol, timeframe, company_name=None):
         """Update entire chart with new data"""
         if df is None or df.empty:
             return
@@ -268,13 +336,27 @@ class CandlestickChart:
         self.plot_candlesticks(df)
         self.plot_rsi(df)
         self.plot_volume(df)
+
+        # Simple title with company name
+        title = f'{symbol} - {company_name} - {timeframe}' if company_name != symbol else f'{symbol} - {timeframe}'
+        self.fig.suptitle(title, fontsize=14, fontweight='bold')
         
-        # Update title
+        # Add price info text to the main chart area
         last_price = df['close'].iloc[-1]
-        self.fig.suptitle(f'{symbol} - {timeframe} - Last: ${last_price:.2f}', 
-                         fontsize=14, fontweight='bold')
+        change = ((last_price - my_pc) / my_pc) * 100
+        
+        # Create info text
+        info_text = f'Prev: ${my_pc:.2f}\nLast: ${last_price:.2f}\nChange: {change:+.2f}%'
+        
+        # Add text box to top-left of main chart
+        self.ax_main.text(0.02, 0.98, info_text, 
+                        transform=self.ax_main.transAxes,
+                        fontsize=10, fontweight='bold',
+                        verticalalignment='top',
+                        bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8))
         
         self.canvas.draw()
+
 
 
 class StockChartApp:
@@ -282,12 +364,15 @@ class StockChartApp:
     
     def __init__(self, symbol):
         self.symbol = symbol.upper()
-        self.current_timeframe = "15min"
-        self.last_timeframe = "15min"  # Remember last selection
+        self.current_timeframe = "5min"
+        self.last_timeframe = "5min"  # Remember last selection
         
         # Initialize components
         self.data_fetcher = SchwabDataFetcher()
         self.market_hours = MarketHours()
+        
+        # Get company name
+        self.company_name = self.data_fetcher.get_company_name(self.symbol)
         
         # Setup GUI
         self.setup_gui()
@@ -325,7 +410,7 @@ class StockChartApp:
         
         self.timeframe_var = tk.StringVar(value=self.current_timeframe)
         timeframe_combo = ttk.Combobox(control_frame, textvariable=self.timeframe_var,
-                                    values=["5min", "15min", "30min"], state="readonly", width=10)
+                                    values=["5min", "15min", "30min","5days"], state="readonly", width=10)
         timeframe_combo.pack(side=tk.LEFT, padx=(0, 10))
         timeframe_combo.bind("<<ComboboxSelected>>", self.on_timeframe_change)
         
@@ -365,6 +450,9 @@ class StockChartApp:
             self.symbol = new_symbol
             self.symbol_var.set(self.symbol)  # Ensure it's uppercase in the field
             
+                    # Get new company name
+            self.company_name = self.data_fetcher.get_company_name(self.symbol)
+
             # Update window title
             self.root.title(f"Stock Chart - {self.symbol}")
             
@@ -403,7 +491,15 @@ class StockChartApp:
                 "frequency_type": Client.PriceHistory.FrequencyType.MINUTE,
                 "frequency": Client.PriceHistory.Frequency.EVERY_THIRTY_MINUTES,
                 "period_type": Client.PriceHistory.PeriodType.DAY,
-                "period": Client.PriceHistory.Period.ONE_DAY
+                "period": Client.PriceHistory.Period.TWO_DAYS
+            }
+        elif timeframe == "5days":
+            # 5 day every 30-minute. candles with 30 x 1 min ticks
+            return {
+                "frequency_type": Client.PriceHistory.FrequencyType.MINUTE,
+                "frequency": Client.PriceHistory.Frequency.EVERY_THIRTY_MINUTES,
+                "period_type": Client.PriceHistory.PeriodType.DAY,
+                "period": Client.PriceHistory.Period.FIVE_DAYS
             }
         else:
             return {
@@ -424,13 +520,13 @@ class StockChartApp:
                 params = self.get_frequency_params(self.current_timeframe)
                 
                 # Fetch data
-                df = self.data_fetcher.get_price_history(
+                my_previusClose, df = self.data_fetcher.get_price_history(
                     symbol=self.symbol,
                     **params
                 )
                 
                 # Update chart on main thread
-                self.root.after(0, lambda: self.update_chart_with_data(df))
+                self.root.after(0, lambda: self.update_chart_with_data(my_previusClose,df))
                 
             except Exception as e:
                 error_msg = f"Error loading {self.symbol}: {str(e)}"
@@ -442,10 +538,10 @@ class StockChartApp:
         # Run in background thread to avoid GUI freezing
         threading.Thread(target=fetch_and_update, daemon=True).start()
     
-    def update_chart_with_data(self, df):
+    def update_chart_with_data(self, my_pc, df):
         """Update chart with fetched data (runs on main thread)"""
         try:
-            self.chart.update_chart(df, self.symbol, self.current_timeframe)
+            self.chart.update_chart(my_pc, df, self.symbol, self.current_timeframe, self.company_name)
             
             # Update status
             now = datetime.now().strftime("%H:%M:%S")
@@ -481,10 +577,10 @@ class StockChartApp:
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(description="Stock Chart with Candlesticks, Volume, and RSI")
-    parser.add_argument("symbol", help="Stock ticker symbol (e.g., AAPL, TSLA)")
+    parser.add_argument("symbol", nargs='?', default="SPY", help="Stock ticker symbol (e.g., AAPL, TSLA) - defaults to SPY")
     
     args = parser.parse_args()
-    
+  
     # Check for required environment variables
     required_vars = ['SCHWAB_API_KEY', 'SCHWAB_APP_SECRET', "SCHWAB_TOKEN_PATH"]
     missing_vars = [var for var in required_vars if not os.getenv(var)]

@@ -29,6 +29,8 @@ setup(
     ],
     python_requires='>=3.10',
     install_requires=[
+        'certifi>=2025.6.15',
+        'authlib>=1.6.0',
         'alpaca-py',
         'alpaca',
         'backtesting',
@@ -47,7 +49,6 @@ setup(
         'setuptools',
         'tabulate',
         'yfinance',
-        'certifi',
         'pandas_market_calendars',
     ],
     # extras_require={

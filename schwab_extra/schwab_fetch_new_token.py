@@ -48,7 +48,8 @@ def main():
 
     # 4. Acquire a fresh token via manual flow
     print("\nStarting manual OAuth flow. Follow the instructions in your console...\n")
-    schwab.auth.client_from_manual_flow(
+    #schwab.auth.client_from_manual_flow(
+    schwab.auth.easy_client(
         api_key,
         app_secret,
         callback_url,
