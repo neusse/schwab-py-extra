@@ -1,0 +1,150 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "schwab-py-extra"
+dynamic = ["version"]
+authors = [
+    {name = "George Neusse", email = "george@neusse.com"},
+]
+description = "Unofficial extension for the Schwab-py"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Development Status :: 1 - Planning",
+    "Natural Language :: English",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+keywords = ["finance", "trading", "equities", "bonds", "options", "research", "extras", "schwab"]
+
+dependencies = [
+    "certifi>=2025.6.15",
+    "authlib>=1.6.0",
+    "alpaca-py",
+    "alpaca",
+    "backtesting",
+    "beautifulsoup4",
+    "httpx",
+    "matplotlib",
+    "mplfinance",
+    "numpy",
+    "packaging",
+    "pandas",
+    "pandas_ta",
+    "Requests",
+    "rich",
+    "schwab-py",
+    "scipy",
+    "setuptools",
+    "tabulate",
+    "yfinance",
+    "pandas_market_calendars",
+]
+
+[project.urls]
+Homepage = "https://github.com/neusse/schwab-py-extra"
+Repository = "https://github.com/neusse/schwab-py-extra"
+Issues = "https://github.com/neusse/schwab-py-extra/issues"
+Discord = "https://discord.gg/bgzXwqRH"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "black",
+    "ruff",
+    "mypy",
+    "tox",
+    "build",
+    "twine",
+]
+test = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "pytest-mock",
+]
+
+[project.scripts]
+alpaca-setup-env = "schwab_extra.alpaca_setup_env:main"
+schwab-dividend-calender = "schwab_extra.schwab_dividend_calender:main"
+schwab-fetch-new-token = "schwab_extra.schwab_fetch_new_token:main"
+schwab-list = "schwab_extra.schwab_list:main"
+schwab-package-checker = "schwab_extra.schwab_package_checker:main"
+schwab-portfolio-analyzer = "schwab_extra.schwab_portfolio_analyzer:main"
+schwab-positions-monitor = "schwab_extra.schwab_positions_monitor:main"
+schwab-py-analysis = "schwab_extra.schwab_py_analysis:main"
+schwab-refresh-token = "schwab_extra.schwab_refresh_token:main"
+schwab-setup-env = "schwab_extra.schwab_setup_env:main"
+yf-dividend-screener = "schwab_extra.yf_dividend_screener:main"
+yf-gapper-screener = "schwab_extra.yf_gapper_screener:main"
+
+[tool.setuptools]
+packages = ["schwab_extra"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "schwab_extra.version.__version__"}
+
+[tool.black]
+line-length = 79
+target-version = ['py310', 'py311', 'py312']
+
+[tool.ruff]
+line-length = 79
+target-version = "py310"
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "A",    # flake8-builtins
+    "C90",  # mccabe complexity
+    "PL",   # pylint
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101", "D103"]  # Allow assert statements and missing docstrings in tests
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["*test*.py"]
+addopts = [
+    "--cov=schwab_extra",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "-v",
+]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "except ImportError",
+    "def __repr__",
+    "raise NotImplementedError",
+    "raise DeprecationWarning",
+    "if TYPE_CHECKING:",
+]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
