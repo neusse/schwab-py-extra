@@ -166,6 +166,8 @@ def analyze_dividend_growth_trends(symbol: str, years: int = 5) -> Dict:
         ticker = yf.Ticker(symbol)
         dividends = ticker.dividends
         
+        print(symbol, dividends)
+
         if dividends.empty:
             return {'error': 'No dividend history'}
         

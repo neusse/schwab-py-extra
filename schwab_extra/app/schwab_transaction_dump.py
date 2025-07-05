@@ -644,7 +644,7 @@ def main():
     try:
         # Run for last 365 days (adjust as needed)
         # Set export_csv=True to export to CSV, display_limit controls console output
-        app.run(days_back=365, export_csv=True, display_limit=50)
+        app.run(days_back=90, export_csv=True, display_limit=50)
         
     except KeyboardInterrupt:
         print("\nApplication interrupted by user")
