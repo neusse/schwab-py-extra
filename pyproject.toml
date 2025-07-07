@@ -92,7 +92,7 @@ packages = ["schwab_extra"]
 include-package-data = true
 
 [tool.setuptools.dynamic]
-version = {attr = "schwab_extra.version.__version__"}
+version = {attr = "schwab_extra.version.version"}
 
 [tool.black]
 line-length = 79

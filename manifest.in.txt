@@ -1,0 +1,9 @@
+# Only needed if you have non-Python files to include
+# that aren't automatically included
+
+include README.md
+include LICENSE
+recursive-include schwab_extra/data *.json *.csv
+recursive-include schwab_extra/templates *.html *.txt
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
